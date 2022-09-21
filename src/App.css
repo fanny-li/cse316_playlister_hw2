@@ -4,11 +4,11 @@
         COLORS THAT WE'LL USE TOGETHER IN MULTIPLE PLACES THAT
         TOGETHER WILL MAKE UP A GIVEN THEME
     */
-  --swatch-foundation: #eeeedd; 
-  --swatch-primary: #e6e6e6; 
+  --swatch-foundation: #eeeedd;
+  --swatch-primary: #e6e6e6;
   --swatch-complement: #e1e4cb;
-  --swatch-contrast: #111111; 
-  --swatch-accent: #669966; 
+  --swatch-contrast: #111111;
+  --swatch-accent: #669966;
   --swatch-status: #123456;
   --bounceEasing: cubic-bezier(0.51, 0.92, 0.24, 1.15);
 }
@@ -19,13 +19,13 @@ body {
 
 #root {
   background-color: var(--swatch-primary);
-  font-family: serif;
+  font-family: 'Tangerine', serif;
   position: absolute;
   width: 80%;
   left: 10%;
-  height:90%;
+  height: 90%;
   top: 5%;
-  display:grid;
+  display: grid;
   grid-template-columns: 30% 70%;
   grid-template-rows: 10% 10% 70% 10%;
 }
@@ -40,12 +40,12 @@ body {
   -statusbar
  */
 
- #banner {
+#banner {
   grid-column: 1 / 3;
   grid-row: 1 / 2;
-  text-align:center;
-  background-image: linear-gradient(to bottom,         
-  #b8b808, #636723);
+  text-align: center;
+  background-image: linear-gradient(to bottom,
+      #b8b808, #636723);
   color: white;
   font-size: 54pt;
   border-color: black;
@@ -57,10 +57,10 @@ body {
 #sidebar-heading {
   grid-column: 1 / 2;
   grid-row: 2 / 3;
-  text-align:center;
+  text-align: center;
   font-size: 36pt;
   font-weight: bold;
-  display:flex;
+  display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
@@ -105,10 +105,12 @@ body {
 }
 
 #add-list-button {
-  float:left;
+  float: left;
 }
 
-.list-card, .selected-list-card, .unselected-list-card {
+.list-card,
+.selected-list-card,
+.unselected-list-card {
   font-size: 18pt;
   margin: 10px;
   padding: 20px;
@@ -118,7 +120,7 @@ body {
 .unselected-list-card:hover {
   cursor: pointer;
   background-color: var(--swatch-contrast);
-  color:white;
+  color: white;
 }
 
 .selected-list-card {
@@ -131,37 +133,39 @@ body {
 }
 
 .list-card-button {
-  float:right;
-  font-size:18pt;
+  float: right;
+  font-size: 18pt;
 }
 
-.playlister-button, .playlister-button-disabled {
-  font-size:36pt;
+.playlister-button,
+.playlister-button-disabled {
+  font-size: 36pt;
   border-width: 0px;
-  float:left;
+  float: left;
   color: black;
   cursor: pointer;
 }
 
 .playlister-button:hover {
   cursor: pointer;
-  color:black;
+  color: black;
 }
 
 .playlister-button-disabled {
-  opacity: 0.25; 
+  opacity: 0.25;
   cursor: not-allowed;
 }
 
-.playlister-song, .playlister-song-dragged-to { 
-  display:flex;
+.playlister-song,
+.playlister-song-dragged-to {
+  display: flex;
   align-items: center;
   font-size: 24pt;
-  height:20%;
+  height: 20%;
 }
 
 input {
-  font-size:20pt;
+  font-size: 20pt;
 }
 
 
@@ -204,15 +208,15 @@ input {
   box-shadow: 5px 10px #888888;
 }
 
-.modal-root > * {
+.modal-root>* {
   padding: 1rem;
 }
 
 .modal-north {
-  font-size:32pt;
+  font-size: 32pt;
   font-weight: bold;
   background-color: #669966;
-  color:white;
+  color: white;
 }
 
 .modal-center {
@@ -229,7 +233,7 @@ span {
 }
 
 .modal-south {
-  display:flex;
+  display: flex;
   flex-direction: row;
   background-color: lightgray;
   align-items: center;
@@ -241,13 +245,13 @@ span {
   grid-row: 1 / 4;
 }
 
-.modal-prompt {  
-  font-size:28pt;
+.modal-prompt {
+  font-size: 28pt;
   font-weight: bold;
 }
 
 .modal-textfield {
-  font-size:28pt;
+  font-size: 28pt;
 }
 
 .modal-button {
@@ -293,11 +297,17 @@ span {
 }
 
 .modal-button {
-  margin:5px;
+  margin: 5px;
 }
 
-.modal p + p {
+.modal p+p {
   margin-top: 1rem;
+}
+
+/* Song Cards */
+.playlister-song {
+  background-color: #eeeedd;
+  margin: 10px;
 }
 
 /* ANIMATIONS
