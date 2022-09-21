@@ -305,9 +305,18 @@ span {
 }
 
 /* Song Cards */
-.playlister-song {
-  background-color: #eeeedd;
+.playlister-song,
+.playlister-song-dragged-to {
+  background-color: var(--swatch-complement);
   margin: 10px;
+  padding: 20px;
+  border-radius: 25px;
+
+}
+
+.playlister-song:hover {
+  background-color: var(--swatch-contrast);
+  color: white;
 }
 
 /* ANIMATIONS

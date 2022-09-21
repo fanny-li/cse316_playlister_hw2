@@ -44,7 +44,7 @@ export default class SongCard extends React.Component {
         targetId = targetId.substring(target.id.indexOf("-") + 1);
         let sourceId = event.dataTransfer.getData("song");
         sourceId = sourceId.substring(sourceId.indexOf("-") + 1);
-        
+
         this.setState(prevState => ({
             isDragging: false,
             draggedTo: false
@@ -77,7 +77,7 @@ export default class SongCard extends React.Component {
                 onDrop={this.handleDrop}
                 draggable="true"
             >
-                {song.title} by {song.artist}
+                {num}. {song.title} by {song.artist}
             </div>
         )
     }
