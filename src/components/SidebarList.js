@@ -4,10 +4,10 @@ import ListCard from "./ListCard";
 export default class SidebarList extends React.Component {
     render() {
         const { currentList,
-                keyNamePairs,
-                deleteListCallback, 
-                loadListCallback,
-                renameListCallback} = this.props;
+            keyNamePairs,
+            deleteListCallback,
+            loadListCallback,
+            renameListCallback } = this.props;
         return (
             <div id="sidebar-list">
                 {
