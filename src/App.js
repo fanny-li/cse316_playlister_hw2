@@ -151,6 +151,8 @@ class App extends React.Component {
         list.songs = newSongs;
 
         this.setStateWithUpdatedList(list);
+        this.db.mutationUpdateList(list);
+        this.db.mutationUpdateSessionData(this.state.sessionData);
 
     }
 
@@ -298,8 +300,6 @@ class App extends React.Component {
         }), () => {
             this.showDeleteSongModal();
         });
-
-        // console.log(this.state.currentSong);
     }
 
     showDeleteSongModal() {
@@ -320,6 +320,24 @@ class App extends React.Component {
     hideDeleteListModal() {
         let modal = document.getElementById("delete-list-modal");
         modal.classList.remove("is-visible");
+    }
+
+    // ADD SONG
+    addSong = () => {
+        let newSong = {
+            "title": "Untitled",
+            "artist": "Unknown",
+            "youTubeId": "dQw4w9WgXcQ"
+        };
+
+        let list = this.state.currentList;
+
+        let updatedSongs = [...list.songs, newSong];
+        list.songs = updatedSongs;
+
+        this.setStateWithUpdatedList(list);
+        this.db.mutationUpdateList(list);
+
     }
     render() {
         let canAddSong = this.state.currentList !== null;
@@ -347,6 +365,7 @@ class App extends React.Component {
                     undoCallback={this.undo}
                     redoCallback={this.redo}
                     closeCallback={this.closeCurrentList}
+                    addSongCallback={this.addSong}
                 />
                 <PlaylistCards
                     currentList={this.state.currentList}
