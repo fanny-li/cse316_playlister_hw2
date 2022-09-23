@@ -30,7 +30,7 @@ export default class DBManager {
         let listString = JSON.stringify(list);
         localStorage.setItem("playlister-list-" + list.key, listString);
     }
-    
+
     mutationUpdateSessionData = (sessionData) => {
         let sessionDataString = JSON.stringify(sessionData);
         localStorage.setItem("playlister-data", sessionDataString);
@@ -40,4 +40,5 @@ export default class DBManager {
         if (this.queryIsList(key))
             localStorage.removeItem("playlister-list-" + key);
     }
+
 }

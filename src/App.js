@@ -10,6 +10,7 @@ import MoveSong_Transaction from './transactions/MoveSong_Transaction.js';
 
 // THESE REACT COMPONENTS ARE MODALS
 import DeleteListModal from './components/DeleteListModal.js';
+import DeleteSongModal from './components/DeleteSongModal.js';
 
 // THESE REACT COMPONENTS ARE IN OUR UI
 import Banner from './components/Banner.js';
@@ -36,7 +37,9 @@ class App extends React.Component {
         this.state = {
             listKeyPairMarkedForDeletion: null,
             currentList: null,
-            sessionData: loadedSessionData
+            sessionData: loadedSessionData,
+            currentSong: null,
+            currentSongIndex: null
         }
     }
     sortKeyNamePairsByName = (keyNamePairs) => {
@@ -135,6 +138,25 @@ class App extends React.Component {
         if (this.state.currentList) {
             this.deleteList(this.state.currentList.key);
         }
+    }
+    // DELETE MARKED SONG
+    deleteSong = (index) => {
+        let list = this.state.currentList;
+
+        let newSongs = [...list.songs];
+        if (index >= 0) {
+            newSongs.splice(index, 1);
+        }
+
+        list.songs = newSongs;
+
+        this.setStateWithUpdatedList(list);
+
+    }
+
+    deleteMarkedSong = () => {
+        this.deleteSong(this.state.currentSongIndex);
+        this.hideDeleteSongModal();
     }
     renameList = (key, newName) => {
         let newKeyNamePairs = [...this.state.sessionData.keyNamePairs];
@@ -265,6 +287,29 @@ class App extends React.Component {
             this.showDeleteListModal();
         });
     }
+    // REMOVING A SONG
+    markSongForDeletion = (song, index) => {
+        this.setState(prevState => ({
+            currentList: prevState.currentList,
+            listKeyPairMarkedForDeletion: prevState.listKeyPairMarkedForDeletion,
+            sessionData: this.state.sessionData,
+            currentSong: song,
+            currentSongIndex: index - 1
+        }), () => {
+            this.showDeleteSongModal();
+        });
+
+        // console.log(this.state.currentSong);
+    }
+
+    showDeleteSongModal() {
+        let modal = document.getElementById("delete-song-modal");
+        modal.classList.add("is-visible");
+    }
+    hideDeleteSongModal() {
+        let modal = document.getElementById("delete-song-modal");
+        modal.classList.remove("is-visible");
+    }
     // THIS FUNCTION SHOWS THE MODAL FOR PROMPTING THE USER
     // TO SEE IF THEY REALLY WANT TO DELETE THE LIST
     showDeleteListModal() {
@@ -305,7 +350,9 @@ class App extends React.Component {
                 />
                 <PlaylistCards
                     currentList={this.state.currentList}
-                    moveSongCallback={this.addMoveSongTransaction} />
+                    moveSongCallback={this.addMoveSongTransaction}
+                    deleteSongCallback={this.markSongForDeletion}
+                />
                 <Statusbar
                     currentList={this.state.currentList} />
                 <DeleteListModal
@@ -313,6 +360,12 @@ class App extends React.Component {
                     hideDeleteListModalCallback={this.hideDeleteListModal}
                     deleteListCallback={this.deleteMarkedList}
                 />
+                <DeleteSongModal
+                    currentSong={this.state.currentSong}
+                    deleteSongCallback={this.deleteMarkedSong}
+                    hideDeleteSongModalCallback={this.hideDeleteSongModal}
+                />
+
             </div>
         );
     }
