@@ -259,6 +259,25 @@ span {
   font-size: 20pt;
 }
 
+.modal-center-edit-song {
+  display: grid;
+  font-size: 35px;
+  /* grid-template-rows: 33% 33% 33%; */
+  grid-template-columns: 30% 70%;
+}
+
+.edit-song-attributes {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+
+.edit-song-attributes input {
+  align-self: center;
+  width: 80%;
+  height: 24px;
+}
+
 #title-prompt {
   grid-column: 1 / 2;
   grid-row: 1 / 2;

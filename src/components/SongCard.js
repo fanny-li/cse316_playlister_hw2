@@ -6,7 +6,7 @@ export default class SongCard extends React.Component {
 
         this.state = {
             isDragging: false,
-            draggedTo: false
+            draggedTo: false,
         }
     }
     handleDragStart = (event) => {
@@ -63,6 +63,12 @@ export default class SongCard extends React.Component {
         this.props.deleteSongCallback(this.props.song, this.getItemNum());
     }
 
+    handleClick = (event) => {
+        if (event.detail === 2) {
+            this.props.editSongCallback(this.props.song, this.getItemNum());
+        }
+    }
+
     render() {
         const { song } = this.props;
         let num = this.getItemNum();
@@ -82,6 +88,7 @@ export default class SongCard extends React.Component {
                 onDragLeave={this.handleDragLeave}
                 onDrop={this.handleDrop}
                 draggable="true"
+                onClick={this.handleClick}
             >
                 {num}. <a
                     href={url}

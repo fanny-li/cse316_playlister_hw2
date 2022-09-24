@@ -19,6 +19,7 @@ import PlaylistCards from './components/PlaylistCards.js';
 import SidebarHeading from './components/SidebarHeading.js';
 import SidebarList from './components/SidebarList.js';
 import Statusbar from './components/Statusbar.js';
+import EditSongModal from './components/EditSongModal';
 
 class App extends React.Component {
     constructor(props) {
@@ -39,7 +40,10 @@ class App extends React.Component {
             currentList: null,
             sessionData: loadedSessionData,
             currentSong: null,
-            currentSongIndex: null
+            currentSongIndex: null,
+            newTitle: null,
+            newArtist: null,
+            newId: null
         }
     }
     sortKeyNamePairsByName = (keyNamePairs) => {
@@ -339,6 +343,98 @@ class App extends React.Component {
         this.db.mutationUpdateList(list);
 
     }
+
+    // EDIT SONG
+    editSong = (song, index) => {
+        this.setState(prevState => ({
+            currentSong: song,
+            currentSongIndex: index - 1,
+            newTitle: song.title,
+            newArtist: song.artist,
+            newId: song.youTubeId
+        }), () => {
+            this.updateSongs();
+        });
+    }
+    updateSongs = () => {
+        let title = document.getElementById("song-title-input");
+
+        let artist = document.getElementById("song-artist-input");
+
+        let youTubeId = document.getElementById("song-youtube-id-input");
+
+        title.value = this.state.currentSong.title;
+        artist.value = this.state.currentSong.artist;
+        youTubeId.value = this.state.currentSong.youTubeId;
+
+        this.showEditSongModal();
+
+        title.onblur = (event) => {
+            this.setState(() => ({
+                newTitle: event.target.value
+            }));
+
+        }
+        title.focus();
+
+
+        artist.onblur = (event) => {
+            this.setState(() => ({
+                newArtist: event.target.value
+            }));
+        }
+        artist.focus();
+
+        youTubeId.onblur = (event) => {
+            this.setState(() => ({
+                newId: event.target.value
+            }));
+        }
+
+        youTubeId.focus();
+    }
+
+
+    showEditSongModal = () => {
+        let modal = document.getElementById("edit-song-modal");
+        modal.classList.add("is-visible");
+    }
+    hideEditSongModal = () => {
+        let modal = document.getElementById("edit-song-modal");
+        modal.classList.remove("is-visible");
+
+    }
+    confirmEditSong = () => {
+        this.hideEditSongModal();
+        this.renameSong(this.state.currentSongIndex, this.state.newTitle, this.state.newArtist, this.state.newId);
+    }
+    cancelEditSong = () => {
+        this.setState(prevState => ({
+            currentSong: prevState.currentSong
+        }), () => {
+            this.hideEditSongModal();
+            console.log(this.state.currentSong);
+        });
+    }
+
+    renameSong = (index, title, artist, id) => {
+        let list = this.state.currentList;
+
+        let newSongs = [...list.songs];
+
+        newSongs[index] = {
+            "title": title,
+            "artist": artist,
+            "youTubeId": id
+        }
+
+        list.songs = newSongs;
+
+        this.setStateWithUpdatedList(list);
+        this.db.mutationUpdateList(list);
+        this.db.mutationUpdateSessionData(this.state.sessionData);
+    }
+
     render() {
         let canAddSong = this.state.currentList !== null;
         let canUndo = this.tps.hasTransactionToUndo();
@@ -371,6 +467,8 @@ class App extends React.Component {
                     currentList={this.state.currentList}
                     moveSongCallback={this.addMoveSongTransaction}
                     deleteSongCallback={this.markSongForDeletion}
+                    editSongCallback={this.editSong}
+                // hideEditSongModalCallback={this.hideEditSongModal}
                 />
                 <Statusbar
                     currentList={this.state.currentList} />
@@ -383,6 +481,11 @@ class App extends React.Component {
                     currentSong={this.state.currentSong}
                     deleteSongCallback={this.deleteMarkedSong}
                     hideDeleteSongModalCallback={this.hideDeleteSongModal}
+                />
+                <EditSongModal
+                    editSongCallback={this.confirmEditSong}
+                    editSongCancelCallback={this.cancelEditSong}
+                    currentSong={this.state.currentSong}
                 />
 
             </div>
