@@ -2,27 +2,7 @@ import React, { Component } from 'react';
 
 export default class EditSongModal extends Component {
     render() {
-        const { editSongCallback, editSongCancelCallback, currentSong } = this.props;
-
-        let title = "";
-        let artist = "";
-        let youTubeId = "";
-
-        if (currentSong) {
-            if (currentSong.title) {
-                title = currentSong.title
-            }
-
-            if (currentSong.artist) {
-                artist = currentSong.artist;
-            }
-
-            if (currentSong.youTubeId) {
-                youTubeId = currentSong.youTubeId;
-            }
-        }
-
-
+        const { editSongCallback, editSongCancelCallback } = this.props;
 
         return (
             <div

@@ -413,7 +413,7 @@ class App extends React.Component {
             currentSong: prevState.currentSong
         }), () => {
             this.hideEditSongModal();
-            console.log(this.state.currentSong);
+
         });
     }
 
@@ -485,7 +485,7 @@ class App extends React.Component {
                 <EditSongModal
                     editSongCallback={this.confirmEditSong}
                     editSongCancelCallback={this.cancelEditSong}
-                    currentSong={this.state.currentSong}
+
                 />
 
             </div>
