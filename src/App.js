@@ -21,6 +21,8 @@ import SidebarList from './components/SidebarList.js';
 import Statusbar from './components/Statusbar.js';
 import EditSongModal from './components/EditSongModal';
 import AddSong_Transaction from './transactions/AddSong_Transaction.js';
+import EditSong_Transaction from './transactions/EditSong_Transaction.js';
+import DeleteSong_Transaction from "./transactions/DeleteSong_Transaction.js";
 
 class App extends React.Component {
     constructor(props) {
@@ -162,8 +164,14 @@ class App extends React.Component {
     }
 
     deleteMarkedSong = () => {
-        this.deleteSong(this.state.currentSongIndex);
+        // this.deleteSong(this.state.currentSongIndex);
+        this.addDeleteSongTransaction(this.state.currentSong.title, this.state.currentSong.artist, this.state.currentSong.youTubeId, this.state.currentSongIndex);
         this.hideDeleteSongModal();
+    }
+
+    addDeleteSongTransaction = (title, artist, id, index) => {
+        let transaction = new DeleteSong_Transaction(this, title, artist, id, index);
+        this.tps.addTransaction(transaction);
     }
     renameList = (key, newName) => {
         let newKeyNamePairs = [...this.state.sessionData.keyNamePairs];
@@ -331,12 +339,11 @@ class App extends React.Component {
     addSong = () => {
         this.addAddSongTransaction(this.state.currentList.songs.length);
     }
-    addNewSong(index) {
-        console.log(index);
+    addNewSong(index, title, artist, youTubeId) {
         let newSong = {
-            "title": "Untitled",
-            "artist": "Unknown",
-            "youTubeId": "dQw4w9WgXcQ"
+            "title": title,
+            "artist": artist,
+            "youTubeId": youTubeId
         };
 
         let list = this.state.currentList;
@@ -394,6 +401,11 @@ class App extends React.Component {
     cancelEditSong = () => {
         this.hideEditSongModal();
         this.setState({ ...this.state, currentSong: null });
+    }
+
+    addEditSongTransaction = (index, newTitle, newArtist, newId, oldTitle, oldArtist, oldId) => {
+        let transaction = new EditSong_Transaction(this, newTitle, newArtist, newId, index, oldTitle, oldArtist, oldId);
+        this.tps.addTransaction(transaction);
     }
 
     render() {

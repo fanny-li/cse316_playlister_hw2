@@ -8,6 +8,9 @@ export default class EditSongModal extends Component {
             newTitle: props.currentSong.title,
             newArtist: props.currentSong.artist,
             newId: props.currentSong.youTubeId,
+            // oldTitle: props.currentSong.title,
+            // oldArtist: props.currentSong.artist,
+            // oldId: props.currentSong.youTubeId,
             index: props.currentSongIndex
         }
     }
@@ -22,7 +25,7 @@ export default class EditSongModal extends Component {
         this.setState({ ...this.state, newId: event.target.value });
     }
     handleEditSongCallback = () => {
-        this.props.editSongCallback(this.state.index, this.state.newTitle, this.state.newArtist, this.state.newId);
+        this.props.editSongCallback(this.state.index, this.state.newTitle, this.state.newArtist, this.state.newId, this.state.oldTitle, this.state.oldArtist, this.state.oldId);
     }
     render() {
         const { editSongCancelCallback } = this.props;
