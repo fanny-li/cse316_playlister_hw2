@@ -381,8 +381,9 @@ class App extends React.Component {
     }
     confirmEditSong = (index, title, artist, id) => {
         this.hideEditSongModal();
-        this.setState({ ...this.state, currentSong: null });
-
+        this.editSong(index, title, artist, id);
+    }
+    editSong = (index, title, artist, id) => {
         let list = this.state.currentList;
         let newSongs = [...list.songs];
 
@@ -397,6 +398,7 @@ class App extends React.Component {
         this.setStateWithUpdatedList(list);
         this.db.mutationUpdateList(list);
         this.db.mutationUpdateSessionData(this.state.sessionData);
+        this.setState({ ...this.state, currentSong: null });
     }
     cancelEditSong = () => {
         this.hideEditSongModal();
@@ -462,7 +464,7 @@ class App extends React.Component {
                     <EditSongModal
                         currentSong={this.state.currentSong}
                         currentSongIndex={this.state.currentSongIndex}
-                        editSongCallback={this.confirmEditSong}
+                        editSongCallback={this.addEditSongTransaction}
                         editSongCancelCallback={this.cancelEditSong}
 
                     /> : <div></div>

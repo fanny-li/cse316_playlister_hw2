@@ -14,10 +14,11 @@ export default class EditSong_Transaction extends jsTPS_Transaction {
     }
 
     doTransaction() {
-        this.app.confirmEditSong(this.index, this.title, this.artist, this.id);
+        this.app.editSong(this.index, this.title, this.artist, this.id);
+        console.log(this.oldTitle);
     }
 
     undoTransaction() {
-        this.app.confirmEditSong(this.index, this.oldTitle, this.oldArtist, this.oldId);
+        this.app.editSong(this.index, this.oldTitle, this.oldArtist, this.oldId);
     }
 }
