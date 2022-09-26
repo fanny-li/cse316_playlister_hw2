@@ -2,18 +2,43 @@ import React from "react";
 
 export default class EditToolbar extends React.Component {
     render() {
-        const { canAddSong, canUndo, canRedo, canClose,
+        const { canAddSong, canUndo, canRedo, canClose, modalVisible,
             undoCallback, redoCallback, closeCallback, addSongCallback } = this.props;
         let addSongClass = "toolbar-button";
         let undoClass = "toolbar-button";
         let redoClass = "toolbar-button";
         let closeClass = "toolbar-button";
-        if (!canAddSong) addSongClass = "playlister-button-disabled";
-        if (!canUndo || !canClose) undoClass = "playlister-button-disabled";
-        if (!canRedo || !canClose) redoClass = "playlister-button-disabled";
-        if (!canClose) closeClass = "playlister-button-disabled";
 
-        // handleCtrlZ = (event) => {
+
+        if (modalVisible) {
+            addSongClass = "playlister-button-disabled";
+            undoClass = "playlister-button-disabled";
+            redoClass = "playlister-button-disabled";
+            closeClass = "playlister-button-disabled";
+        }
+
+        else if (!canAddSong) {
+            addSongClass = "playlister-button-disabled";
+            undoClass = "playlister-button-disabled";
+            redoClass = "playlister-button-disabled";
+            closeClass = "playlister-button-disabled";
+        }
+        else if (!canUndo) {
+            undoClass = "playlister-button-disabled";
+        }
+        else if (!canRedo) {
+            redoClass = "playlister-button-disabled";
+        }
+        else {
+            addSongClass = "playlister-button";
+            undoClass = "playlister-button";
+            redoClass = "playlister-button";
+            closeClass = "playlister-button";
+        }
+
+
+
+        // handleUndo = (event) => {
 
         // }
         return (

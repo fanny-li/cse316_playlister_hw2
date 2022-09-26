@@ -46,7 +46,8 @@ class App extends React.Component {
             currentSongIndex: null,
             newTitle: null,
             newArtist: null,
-            newId: null
+            newId: null,
+            isModalVisible: false
         }
     }
     sortKeyNamePairsByName = (keyNamePairs) => {
@@ -148,7 +149,6 @@ class App extends React.Component {
     }
     // DELETE MARKED SONG
     deleteSong = (index) => {
-        console.log(index);
         let list = this.state.currentList;
 
         let newSongs = [...list.songs];
@@ -315,24 +315,43 @@ class App extends React.Component {
         });
     }
 
-    showDeleteSongModal() {
-        let modal = document.getElementById("delete-song-modal");
-        modal.classList.add("is-visible");
+    showDeleteSongModal = () => {
+        this.setState(prevState => ({
+            isModalVisible: true
+        }), () => {
+            let modal = document.getElementById("delete-song-modal");
+            modal.classList.add("is-visible");
+        })
+
     }
-    hideDeleteSongModal() {
-        let modal = document.getElementById("delete-song-modal");
-        modal.classList.remove("is-visible");
+    hideDeleteSongModal = () => {
+        this.setState(prevState => ({
+            isModalVisible: false
+        }), () => {
+            let modal = document.getElementById("delete-song-modal");
+            modal.classList.remove("is-visible");
+        })
     }
     // THIS FUNCTION SHOWS THE MODAL FOR PROMPTING THE USER
     // TO SEE IF THEY REALLY WANT TO DELETE THE LIST
-    showDeleteListModal() {
-        let modal = document.getElementById("delete-list-modal");
-        modal.classList.add("is-visible");
+    showDeleteListModal = () => {
+        this.setState(prevState => ({
+            isModalVisible: true
+        }), () => {
+            let modal = document.getElementById("delete-list-modal");
+            modal.classList.add("is-visible");
+
+        })
+
     }
     // THIS FUNCTION IS FOR HIDING THE MODAL
-    hideDeleteListModal() {
-        let modal = document.getElementById("delete-list-modal");
-        modal.classList.remove("is-visible");
+    hideDeleteListModal = () => {
+        this.setState(prevState => ({
+            isModalVisible: false
+        }), () => {
+            let modal = document.getElementById("delete-list-modal");
+            modal.classList.remove("is-visible");
+        })
     }
 
     // ADD SONG
@@ -359,10 +378,18 @@ class App extends React.Component {
     // EDIT SONG
 
     showEditSongModal = () => {
-        let modal = document.getElementById("edit-song-modal");
-        modal.classList.add("is-visible");
+        this.setState(prevState => ({
+            isModalVisible: true
+        }), () => {
+            let modal = document.getElementById("edit-song-modal");
+            modal.classList.add("is-visible");
+        })
     }
     hideEditSongModal = () => {
+        this.setState(prevState => ({
+            isModalVisible: false,
+            currentSong: null
+        }));
         let modal = document.getElementById("edit-song-modal");
         modal.classList.remove("is-visible");
 
@@ -397,10 +424,10 @@ class App extends React.Component {
         this.db.mutationUpdateSessionData(this.state.sessionData);
         this.setState({ ...this.state, currentSong: null });
     }
-    cancelEditSong = () => {
-        this.hideEditSongModal();
-        this.setState({ ...this.state, currentSong: null });
-    }
+    // cancelEditSong = () => {
+    //     this.hideEditSongModal();
+    //     this.setState({ ...this.state, currentSong: null });
+    // }
 
     addEditSongTransaction = (index, newTitle, newArtist, newId, oldTitle, oldArtist, oldId) => {
         let transaction = new EditSong_Transaction(this, newTitle, newArtist, newId, index, oldTitle, oldArtist, oldId);
@@ -408,16 +435,18 @@ class App extends React.Component {
     }
 
     render() {
-        let canAddList = this.state.currentList;
+        let canAddList = this.state.currentList === null;
         let canAddSong = this.state.currentList !== null;
         let canUndo = this.tps.hasTransactionToUndo();
         let canRedo = this.tps.hasTransactionToRedo();
         let canClose = this.state.currentList !== null;
+        let modalVisible = this.state.isModalVisible;
 
         return (
             <div id="root">
                 <Banner />
                 <SidebarHeading
+                    modalVisible={modalVisible}
                     canAddList={canAddList}
                     createNewListCallback={this.createNewList}
                 />
@@ -433,6 +462,7 @@ class App extends React.Component {
                     canUndo={canUndo}
                     canRedo={canRedo}
                     canClose={canClose}
+                    modalVisible={modalVisible}
                     undoCallback={this.undo}
                     redoCallback={this.redo}
                     closeCallback={this.closeCurrentList}
@@ -462,7 +492,7 @@ class App extends React.Component {
                         currentSong={this.state.currentSong}
                         currentSongIndex={this.state.currentSongIndex}
                         editSongCallback={this.addEditSongTransaction}
-                        editSongCancelCallback={this.cancelEditSong}
+                        editSongCancelCallback={this.hideEditSongModal}
 
                     /> : <div></div>
                 }

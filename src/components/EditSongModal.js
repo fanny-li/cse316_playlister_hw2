@@ -30,7 +30,7 @@ export default class EditSongModal extends Component {
             <div
                 className='modal'
                 id="edit-song-modal"
-                data-animation="slideInOutRight"
+                data-animation="slideInOutLeft"
             >
                 <div className='modal-root'>
                     <div className='modal-north'>Edit Song</div>

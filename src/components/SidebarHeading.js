@@ -7,9 +7,9 @@ export default class SidebarHeading extends React.Component {
         createNewListCallback();
     };
     render() {
-        const { canAddList } = this.props;
+        const { canAddList, modalVisible } = this.props;
         let addListClass = "toolbar-button";
-        if (canAddList) { addListClass = "playlister-button-disabled" }
+        if (!canAddList || modalVisible) { addListClass = "playlister-button-disabled" }
         return (
             <div id="sidebar-heading">
                 <input
