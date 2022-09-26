@@ -25,7 +25,7 @@ export default class EditSongModal extends Component {
         this.props.editSongCallback(this.state.index, this.state.newTitle, this.state.newArtist, this.state.newId);
     }
     render() {
-        const { editSongCallback, editSongCancelCallback } = this.props;
+        const { editSongCancelCallback } = this.props;
         return (
             <div
                 className='modal'

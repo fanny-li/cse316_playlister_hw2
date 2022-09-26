@@ -20,6 +20,7 @@ import SidebarHeading from './components/SidebarHeading.js';
 import SidebarList from './components/SidebarList.js';
 import Statusbar from './components/Statusbar.js';
 import EditSongModal from './components/EditSongModal';
+import AddSong_Transaction from './transactions/AddSong_Transaction.js';
 
 class App extends React.Component {
     constructor(props) {
@@ -328,6 +329,10 @@ class App extends React.Component {
 
     // ADD SONG
     addSong = () => {
+        this.addAddSongTransaction(this.state.currentList.songs.length);
+    }
+    addNewSong(index) {
+        console.log(index);
         let newSong = {
             "title": "Untitled",
             "artist": "Unknown",
@@ -336,14 +341,17 @@ class App extends React.Component {
 
         let list = this.state.currentList;
 
-        let updatedSongs = [...list.songs, newSong];
-        list.songs = updatedSongs;
+        // let updatedSongs = [...list.songs, newSong];
+        // list.songs = updatedSongs;
+        list.songs[index] = newSong;
 
         this.setStateWithUpdatedList(list);
         this.db.mutationUpdateList(list);
-
     }
-
+    addAddSongTransaction = (index) => {
+        let transaction = new AddSong_Transaction(this, index);
+        this.tps.addTransaction(transaction);
+    }
     // EDIT SONG
 
     showEditSongModal = () => {
@@ -366,7 +374,7 @@ class App extends React.Component {
     }
     confirmEditSong = (index, title, artist, id) => {
         this.hideEditSongModal();
-        this.state.currentSong = null;
+        this.setState({ ...this.state, currentSong: null });
 
         let list = this.state.currentList;
         let newSongs = [...list.songs];
@@ -385,7 +393,7 @@ class App extends React.Component {
     }
     cancelEditSong = () => {
         this.hideEditSongModal();
-        this.state.currentSong = null;
+        this.setState({ ...this.state, currentSong: null });
     }
 
     render() {
