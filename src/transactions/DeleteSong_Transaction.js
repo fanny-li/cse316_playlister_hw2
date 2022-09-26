@@ -17,6 +17,7 @@ export default class RemoveSong_Transaction extends jsTPS_Transaction {
     undoTransaction() {
         let oldIndex = this.app.state.currentList.songs.length;
         this.app.addNewSong(oldIndex, this.title, this.artist, this.id);
-        this.app.moveSong(oldIndex, this.index);
+        console.log("running");
+        this.app.moveSong(oldIndex + 1, this.index + 1);
     }
 }

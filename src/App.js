@@ -148,6 +148,7 @@ class App extends React.Component {
     }
     // DELETE MARKED SONG
     deleteSong = (index) => {
+        console.log(index);
         let list = this.state.currentList;
 
         let newSongs = [...list.songs];
@@ -160,13 +161,12 @@ class App extends React.Component {
         this.setStateWithUpdatedList(list);
         this.db.mutationUpdateList(list);
         this.db.mutationUpdateSessionData(this.state.sessionData);
-
     }
 
     deleteMarkedSong = () => {
-        // this.deleteSong(this.state.currentSongIndex);
-        this.addDeleteSongTransaction(this.state.currentSong.title, this.state.currentSong.artist, this.state.currentSong.youTubeId, this.state.currentSongIndex);
         this.hideDeleteSongModal();
+        this.addDeleteSongTransaction(this.state.currentSong.title, this.state.currentSong.artist, this.state.currentSong.youTubeId, this.state.currentSongIndex);
+        // this.hideDeleteSongModal();
     }
 
     addDeleteSongTransaction = (title, artist, id, index) => {
@@ -347,9 +347,6 @@ class App extends React.Component {
         };
 
         let list = this.state.currentList;
-
-        // let updatedSongs = [...list.songs, newSong];
-        // list.songs = updatedSongs;
         list.songs[index] = newSong;
 
         this.setStateWithUpdatedList(list);
