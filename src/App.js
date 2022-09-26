@@ -389,14 +389,17 @@ class App extends React.Component {
     }
 
     render() {
+        let canAddList = this.state.currentList;
         let canAddSong = this.state.currentList !== null;
         let canUndo = this.tps.hasTransactionToUndo();
         let canRedo = this.tps.hasTransactionToRedo();
         let canClose = this.state.currentList !== null;
+
         return (
             <div id="root">
                 <Banner />
                 <SidebarHeading
+                    canAddList={canAddList}
                     createNewListCallback={this.createNewList}
                 />
                 <SidebarList
