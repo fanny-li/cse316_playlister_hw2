@@ -24,10 +24,8 @@ export default class EditToolbar extends React.Component {
             closeClass = "playlister-button-disabled";
         }
         else if (canAddSong) {
-            console.log("here");
             undoClass = "playlister-button-disabled";
             redoClass = "playlister-button-disabled";
-            console.log(canRedo);
             if (canUndo) {
                 undoClass = "playlister-button";
             }

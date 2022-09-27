@@ -390,8 +390,10 @@ class App extends React.Component {
             isModalVisible: false,
             currentSong: null
         }));
-        let modal = document.getElementById("edit-song-modal");
-        modal.classList.remove("is-visible");
+        // }), () => {
+        //     let modal = document.getElementById("edit-song-modal");
+        //     modal.classList.remove("is-visible");
+        // });
 
     }
 
@@ -405,6 +407,7 @@ class App extends React.Component {
     }
     confirmEditSong = (index, title, artist, id) => {
         this.hideEditSongModal();
+        console.log(this.state.isModalVisible);
         this.editSong(index, title, artist, id);
     }
     editSong = (index, title, artist, id) => {
@@ -422,7 +425,7 @@ class App extends React.Component {
         this.setStateWithUpdatedList(list);
         this.db.mutationUpdateList(list);
         this.db.mutationUpdateSessionData(this.state.sessionData);
-        this.setState({ ...this.state, currentSong: null });
+        this.hideEditSongModal();
     }
 
     addEditSongTransaction = (index, newTitle, newArtist, newId, oldTitle, oldArtist, oldId) => {
@@ -431,8 +434,12 @@ class App extends React.Component {
     }
 
     handleOnKeyDown = (event) => {
-        if (event.keyCode == 90 && event.key == 'z') {
-            console.log("pressed");
+        if (event.ctrlKey && event.key == 'z') {
+            console.log("undo");
+            this.undo();
+        }
+        if (event.ctrlKey && event.key == 'y') {
+            this.redo();
         }
     }
 
@@ -445,7 +452,7 @@ class App extends React.Component {
         let modalVisible = this.state.isModalVisible;
 
         return (
-            <div id="root">
+            <div id="root" tabIndex="0" onKeyDown={this.handleOnKeyDown}>
                 <Banner />
                 <SidebarHeading
                     modalVisible={modalVisible}
