@@ -424,14 +424,16 @@ class App extends React.Component {
         this.db.mutationUpdateSessionData(this.state.sessionData);
         this.setState({ ...this.state, currentSong: null });
     }
-    // cancelEditSong = () => {
-    //     this.hideEditSongModal();
-    //     this.setState({ ...this.state, currentSong: null });
-    // }
 
     addEditSongTransaction = (index, newTitle, newArtist, newId, oldTitle, oldArtist, oldId) => {
         let transaction = new EditSong_Transaction(this, newTitle, newArtist, newId, index, oldTitle, oldArtist, oldId);
         this.tps.addTransaction(transaction);
+    }
+
+    handleOnKeyDown = (event) => {
+        if (event.keyCode == 90 && event.key == 'z') {
+            console.log("pressed");
+        }
     }
 
     render() {
