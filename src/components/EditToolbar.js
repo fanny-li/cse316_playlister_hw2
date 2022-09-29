@@ -29,7 +29,7 @@ export default class EditToolbar extends React.Component {
             if (canUndo) {
                 undoClass = "playlister-button";
             }
-            else if (canRedo) {
+            if (canRedo) {
                 redoClass = "playlister-button";
             }
         }
